@@ -1,0 +1,47 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive  # IMPORTANT: Downloads ImGui for us
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: '3.1.51' # Pinning a stable version
+          actions-cache-folder: 'emsdk-cache'
+
+      - name: Compile C++ to Wasm
+        run: |
+          mkdir build
+          cd build
+          emcmake cmake ..
+          emmake make
+          # List files to verify (for debugging in GitHub logs)
+          ls -la ../dist
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Deploy to Vercel
+        # We deploy only the 'dist' folder + vercel.json
+        run: |
+          cp vercel.json dist/
+          cd dist
+          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
