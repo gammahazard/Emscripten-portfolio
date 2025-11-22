@@ -16,30 +16,28 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
-          submodules: recursive  # IMPORTANT: Downloads ImGui for us
+          submodules: recursive
 
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v14
         with:
-          version: '3.1.51' # Pinning a stable version
+          version: '3.1.51'
           actions-cache-folder: 'emsdk-cache'
 
-      - name: Compile C++ to Wasm
+      - name: Run Build Script
         run: |
-          mkdir build
-          cd build
-          emcmake cmake ..
-          emmake make
-          # List files to verify (for debugging in GitHub logs)
-          ls -la ../dist
+          chmod +x scripts/build_prod.sh
+          ./scripts/build_prod.sh
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Deploy to Vercel
-        # We deploy only the 'dist' folder + vercel.json
+        # We deploy the 'dist' folder which now contains:
+        # - index.html (Portfolio)
+        # - doom/ (The Game)
+        # - vercel.json ( The Routing Rules)
         run: |
-          cp vercel.json dist/
           cd dist
           vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
         env:

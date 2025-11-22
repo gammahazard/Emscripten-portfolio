@@ -10,7 +10,19 @@
   ],
   "rewrites": [
     {
+      "source": "/doom",
+      "destination": "/doom/index.html"
+    },
+    {
+      "source": "/doom/(.*)",
+      "destination": "/doom/$1"
+    },
+    {
       "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
