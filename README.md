@@ -23,11 +23,11 @@ This is not just a website; it is two compiled applications living under one dom
 ```mermaid
 graph TD;
     subgraph "User Browser"
-    A[ImGui Launcher <br> (C++17 / Modern)] -- "User Clicks Launch" --> B(Doom Engine <br> (C99 / Legacy));
+    A["ImGui Launcher <br> (C++17 / Modern)"] -- "User Clicks Launch" --> B("Doom Engine <br> (C99 / Legacy)");
     end
     
     subgraph "Virtual File System"
-    B --> C{WAD Assets};
+    B --> C{"WAD Assets"};
     C -->|Levels| D[doom1.wad];
     C -->|Engine Data| E[prboomx.wad];
     end
@@ -37,8 +37,8 @@ graph TD;
     F -->|Compiles| H[doom.wasm];
     end
 ```
-   
-   ## 🚀 Features
+
+## 🚀 Features
 
 * **Dual-Wasm Architecture:** Demonstrates linking and routing between multiple WebAssembly binaries (`index.wasm` for UI, `doom.wasm` for Gameplay).
 * **Doom in the Browser:** Full implementation of the PrBoom+ engine, supporting:
