@@ -8,7 +8,7 @@ A high-performance, serverless web application built with **C++17** and **WebAss
 
 This project demonstrates a full CI/CD pipeline where C++ source code is compiled into Wasm artifacts via **GitHub Actions** and automatically deployed to the edge using **Vercel**.
 
-### 🔗 [Live Demo](https://your-project-name.vercel.app)
+### 🔗 [Live Demo](https://github.com/gammahazard/Emscripten-portfolio)
 
 ---
 
