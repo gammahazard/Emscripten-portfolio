@@ -31,7 +31,8 @@ graph TD;
     D -->|Downloads| E[User Browser];
     E -->|Executes| F[Native Performance UI];
 ```
-    ## 🚀 Features
+
+## 🚀 Features
 
 * **Near-Native Performance:** Leveraging **WebAssembly (Wasm)** to execute complex C++ logic at speeds approaching native machine code, bypassing JavaScript bottlenecks.
 * **Immediate Mode GUI:** Utilizes **Dear ImGui** to render a responsive, frame-based UI architecture. This is the industry standard for game engines, internal tools, and high-frequency visualizations.
