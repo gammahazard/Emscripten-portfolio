@@ -34,7 +34,6 @@ EM_JS(void, clear_local_storage, (), {
     localStorage.removeItem('click_count');
 });
 
-
 // sets html background color and removes scrollbars
 EM_JS(void, set_html_body_color, (float r, float g, float b), {
     // convert float colors to css rgb(0-255)
@@ -44,22 +43,24 @@ EM_JS(void, set_html_body_color, (float r, float g, float b), {
     var color_string = 'rgb(' + r_int + ',' + g_int + ',' + b_int + ')';
     
     // scrollbar and body fixes
-    // hide overflow on <html>
     document.documentElement.style.overflow = 'hidden'; 
-    
-    // target <body>
     document.body.style.backgroundColor = color_string;
     document.body.style.margin = '0';
     document.body.style.overflow = 'hidden'; 
     
     var canvas = document.getElementById('canvas'); 
     if (canvas) {
-        // force canvas to fill viewport
         canvas.style.backgroundColor = color_string;
         canvas.style.width = '100vw';
         canvas.style.height = '100vh';
         canvas.style.display = 'block'; 
     }
+});
+
+// redirects the browser to the new doom web port
+EM_JS(void, redirect_to_doom, (), {
+    // *** MODIFIED LINE: window.open opens link in a new tab ***
+    window.open('http://wasm.continuation-labs.com/d3demo/', '_blank'); 
 });
 
 
@@ -149,10 +150,22 @@ void main_loop() {
         SetTheme(is_dark_mode);
     }
     
-    // app content
+    // layout fix: ensure space and separation for the doom button
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    // doom button
+    if (ImGui::Button("run classic doom (wasm demo)")) {
+        redirect_to_doom();
+    }
+    
+    // layout fix: separate doom button from counter
+    ImGui::Spacing();
+
+    // app content (click counter)
     if (ImGui::Button("click me (c++ logic)")) {
         clicks++;
-        // save new count
         save_to_local_storage(clicks);
     }
     ImGui::SameLine();
@@ -214,8 +227,7 @@ int main(int, char**) {
     io.ConfigFlags &= ~ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags &= ~ImGuiConfigFlags_NavEnableGamepad; 
     io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-    // docking and viewports removed to fix compiler errors
-    
+
     // load initial click count
     clicks = load_from_local_storage();
 
