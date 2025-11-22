@@ -30,7 +30,7 @@ graph TD;
     C -->|Vercel CLI| D[Vercel Edge Network];
     D -->|Downloads| E[User Browser];
     E -->|Executes| F[Native Performance UI];
-
+```
     ## 🚀 Features
 
 * **Near-Native Performance:** Leveraging **WebAssembly (Wasm)** to execute complex C++ logic at speeds approaching native machine code, bypassing JavaScript bottlenecks.
